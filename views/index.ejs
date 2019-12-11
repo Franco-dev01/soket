@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>socket appel temps reel</title>
+</head>
+
+<h1>welcome socket</h1>
+<div>
+    <input type="text" class="inp"><br>
+    <button type="submit" name="send" style="color: green;" onclick="btn()">appele</button>
+    <button type="submit" name="send" style="color: red;">racroche</button>
+
+</div>
+<body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    var socket=io();
+function btn(){
+    const inp=document.querySelector('.inp')
+       
+          const val= inp.value
+          if(val.length!=8|| typeof(parseInt(val))!=typeof(1)){
+             socket.on('error',data=>{
+                console.log(data)
+             })
+          }else{
+              socket.emit('appel',val)
+              socket.on('recu',sms=>{
+                  console.log(sms);
+              })
+          }
+    }
+
+    socket.on('message',function(message){
+        console.log('le server a envoye un message pour vous:'+message)
+
+    });
+    </script>
+</body>
+</html>
